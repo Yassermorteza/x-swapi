@@ -1,0 +1,160 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: serif;
+  line-height: 1.698;
+  color: #fff;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  height: 100%;
+  background-image: url('background-starwar.gif');
+  background-size: cover;
+}
+
+a,
+a:link,
+a:hover,
+a:visited {
+  color: rgb(231,231,112);;
+  text-decoration:none;
+}
+
+h1,
+h2,
+h3 {
+  margin: 1px;
+  font-weight: 100;
+}
+
+header,
+footer {
+  color: rgb(20,20,20);
+  background-color: rgba(220,220,220, 0.8);
+}
+
+body>header,
+body>footer {
+  padding: 0 1rem;
+}
+
+body>header {
+  border-bottom: 1px solid rgb(231,231,112);
+}
+
+main{
+  overflow: auto;
+}
+.card {
+  flex-grow: 2;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+body>footer {
+  border-top: 1px solid rgb(231,231,112);
+}
+
+.person {
+  width: 48vw;
+  margin: 8px;
+  background-color: rgba(179,179,179, 0.1);
+  border:1px solid rgb(231,231,112);;
+  border-radius: 5px;
+}
+
+.person>header,
+.person>div {
+  padding: 0 0.5rem; 
+}
+
+.person>header {
+  border-bottom:1px solid rgb(231,231,112);
+}
+
+.person ul {
+  padding: 0;
+}
+
+.person li {
+  display: flex;
+  padding: 0;
+}
+
+.person .label {
+  flex-grow: 0;
+  width: 40%;
+}
+
+.person .gender {
+  color: #554c4c;
+}
+
+.person .value {
+  color: #769fc2;
+}
+
+.next,
+.previous{
+  background: none;
+  color: rgb(231,231,112);
+  border: 1px solid rgb(231,231,112);
+  margin-left: 1%;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* -------------------------------- */
+
+.modal,
+.modal>.underlay,
+.modal>.body {
+  position: absolute;
+}
+
+.modal,
+.modal>.underlay {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal {
+  height: 0;
+  z-index: 10;
+  overflow: hidden;
+  transition: height 300ms ease;
+}
+
+.modal.open {
+  height: 100%;
+}
+
+.modal>.underlay {
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+
+.modal>.body {
+  /* fill here */
+}
+
+.modal .controls {
+  /* fill here */
+}
+
+.modal .content {
+  /* fill here */
+}
