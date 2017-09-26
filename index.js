@@ -1,27 +1,95 @@
 var mainElement = document.querySelector('main');
 
-function loadPeople(url, done) {
+var people = ["name",
+              "height",
+              "mass",
+              "hair_color",
+              "skin_color",
+              "eye_color",
+              "birth_year",
+              "gender"];
+
+var planets = ["name", 
+                "rotation_period", 
+                "orbital_period", 
+                "diameter", 
+                "climate", 
+                "gravity", 
+                "terrain", 
+                "surface_water", 
+                "population"];
+
+var films = ["title", 
+              "episode_id", 
+              "director", 
+              "producer", 
+              "release_date", ];
+
+var species = ["name", 
+                "classification", 
+                "designation", 
+                "average_height", 
+                "skin_colors", 
+                "hair_colors", 
+                "eye_colors", 
+                "average_lifespan", 
+                "language"];
+
+var vehicles = [ "name", 
+                  "model", 
+                  "manufacturer", 
+                  "cost_in_credits", 
+                  "length", 
+                  "max_atmosphering_speed", 
+                  "crew", 
+                  "passengers", 
+                  "cargo_capacity", 
+                  "consumables", 
+                  "vehicle_class"];
+
+var starships = ["name", 
+                  "model", 
+                  "manufacturer", 
+                  "cost_in_credits", 
+                  "length", 
+                  "max_atmosphering_speed", 
+                  "crew", 
+                  "passengers", 
+                  "cargo_capacity", 
+                  "consumables", 
+                  "hyperdrive_rating", 
+                  "MGLT", 
+                  "starship_class"];
+
+var arr = '';
+
+function loadData(url, done, keys) {
   fetch(url)
   .then((response)=> response.json())
   .then(load)
   .catch((err)=> console.log('Request failed', err));
-
-  function load(people){
-    done(people); 
+  
+  function load(data){
+    done(data, keys); 
   }
-
 }
 
 
-function renderPeople(people) {
+function renderData(data, aspects) {
+
   mainElement.innerHTML="";
+  
   var nav = document.createElement('nav');
   var container = document.createElement('div');
+
   container.classList.add('card');
-  people.results.forEach(el=>{
+
+  data.results.forEach(el=>{
     var section = document.createElement('section');
     section.classList.add('person');
+
     var gender = '';
+
     switch (el.gender){
       case 'male':
       gender = '♂';
@@ -36,87 +104,65 @@ function renderPeople(people) {
       break;
     }
 
-    section.innerHTML = `<header><h1>
-                          <span>${el.name}</span>
-                          <span class="gender">${gender}</span>
-                        </h1></header>
-                        <div>
-                         <ul>
-                          <li>
-                            <span class="label">Birth Year:</span>
-                            <span class="value">${el.birth_year}</span>
-                          </li>
-                          <li>
-                            <span class="label">Eye Color:</span>
-                            <span class="value">${el.eye_color}</span>
-                          </li>
-                          <li>
-                            <span class="label">Skin Color:</span>
-                            <span class="value">${el.skin_color}</span>
-                          </li>
-                          <li>
-                            <span class="label">Hair Color:</span>
-                            <span class="value">${el.hair_color}</span>
-                          </li>
-                          <li>
-                            <span class="label">Height:</span>
-                            <span class="value">${el.height/10}m</span>
-                          </li>
-                          <li>
-                            <span class="label">Mass:</span>
-                            <span class="value">${el.mass}kg</span>
-                          </li>
-                         </ul>
-                        </div>`; 
-     container.appendChild(section);
+        var ul =`<header><h1>
+                  <span>${el.name || el.title}</span>
+                  <span class="gender">${gender}</span>
+                 </h1></header>
+                 ${el.opening_crawl ? el.opening_crawl.split('\n').join('<br>') : ''}
+                 <div>
+                  <ul>`;
+        
+         aspects.forEach(k=>{
+
+           ul += `<li>
+                    <span class="label">${k}:</span>
+                    <span class="value">${el[k]}</span>
+                  </li>`;
+         });
+
+         ul += `</ul></div>`;
+        section.innerHTML =  ul;     
+       
+        container.appendChild(section);
     });
+
    mainElement.appendChild(container);
    mainElement.appendChild(nav);
-   // nav.innerHTML="";
-   addButton(people.next,'next', nav);
-   addButton(people.previous,'previous', nav);
+
+   addButton(data.next,'next', nav);
+   addButton(data.previous,'previous', nav);
 }
 
-loadPeople('https://swapi.co/api/people/?page=1', renderPeople);
+function renderMenu(data){
+  var ulElement = document.querySelector('body>header nav ul');
+  Object.keys(data).forEach((key)=>{
+
+    var itemElement = document.createElement('li');
+    var linkElement = document.createElement('a');
+    ulElement.appendChild(linkElement);
+    ulElement.appendChild(itemElement);
+    linkElement.textContent = key;
+     linkElement.addEventListener('click', ()=>{
+          arr = (eval(key));
+          loadData(data[key], renderData, arr);
+     });
+  });
+
+  loadData('https://swapi.co/api/people', renderData, people); 
+}
+
+loadData('https://swapi.co/api/', renderMenu);
 
 function addButton(url, text, navbar){
-
   if(!url) return;
   var btn = document.createElement('button');
   btn.textContent = text;
   btn.classList.add(text);
   navbar.appendChild(btn);
-
+  
   btn.addEventListener('click', ()=>{
-   loadPeople(url, renderPeople); 
+      loadData(url, renderData, arr); 
   });
 }
 
 
-
-
-
-
-// function createModal(){
-//   var modal = document.createElement('div');
-//   modal.classList.add('modal');
-//   modal.innerHTML = `<div class="body">
-//                       <div class="controls">
-//                         <nextBtn>close</nextBtn>
-//                           </div>
-//                           <div class="content"></div>
-//                     </div>
-//                     <div class="underlay"></div>`;
-
-//   return modal;
-// }
-
-
-// function showModal(contentElement){
-//    var content = document.querySelectorAll('.content')
-// }
-
-
-// function loadData(done, url){
-   
-// }

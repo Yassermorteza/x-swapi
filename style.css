@@ -27,12 +27,14 @@ a:hover,
 a:visited {
   color: rgb(231,231,112);;
   text-decoration:none;
+  cursor: pointer;
 }
 
 h1,
 h2,
 h3 {
-  margin: 1px;
+  margin: 0;
+  padding: 0;
   font-weight: 100;
 }
 
@@ -42,15 +44,45 @@ footer {
   background-color: rgba(220,220,220, 0.8);
 }
 
-body>header,
 body>footer {
   padding: 0 1rem;
 }
 
 body>header {
+  display: flex;
+  flex-direction: row;
   border-bottom: 1px solid rgb(231,231,112);
+  padding-bottom: 2rem;
 }
 
+body>header 
+nav{
+  display: inline-block;
+  margin: 1rem;
+  padding: 0;
+}
+
+body>header 
+nav ul 
+a,
+a:link,
+a:hover,
+a:visited {
+  color: rgb(50,60,50);;
+}
+
+body>header 
+nav ul{
+  padding: 0;
+  margin: 0;
+}
+
+body>header 
+nav ul li{
+  display: inline-block;
+  margin: 2px;
+  padding: 0;
+}
 main{
   overflow: auto;
 }
@@ -74,7 +106,8 @@ body>footer {
 
 .person>header,
 .person>div {
-  padding: 0 0.5rem; 
+  padding: 0 0.5rem;
+  border-radius: 5px 0 0 5px; 
 }
 
 .person>header {
